@@ -9,8 +9,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        int companyIncome = 15000000;
-        Company myFirstCompany = new Company(BigDecimal.valueOf(companyIncome));
+        Company myFirstCompany = new Company();
         Random random = new Random();
         for (int i = 0; i < 180; i++) {
             int curSalary = random.nextInt(20000) + 40000;

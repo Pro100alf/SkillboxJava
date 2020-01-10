@@ -1,6 +1,7 @@
 package companies;
 
 import employees.Employee;
+import employees.IncomeReceivable;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -9,18 +10,8 @@ import java.util.*;
 public class Company {
 
     private ArrayList<Employee> listOfEmployees = new ArrayList<>();
-    private BigDecimal companyIncome;
 
     public Company(){
-        companyIncome = BigDecimal.valueOf(0);
-    }
-
-    public Company(BigDecimal companyIncome) {
-        this.companyIncome = companyIncome;
-    }
-
-    public void setCompanyIncome(BigDecimal companyIncome){
-        this.companyIncome = companyIncome;
     }
 
     public void hire(Employee employee) {
@@ -43,7 +34,7 @@ public class Company {
         }
         else if (employeeId == -1 && employeesNumber > 0){
             for (int i = 0; i < employeesNumber; i++){
-                int randomEmployee = (int)(Math.random() * listOfEmployees.size());
+                int randomEmployee = (int)(Math.random() * listOfEmployees.size() - 1);
                 fire(randomEmployee, 0);
             }
         }
@@ -53,6 +44,13 @@ public class Company {
     }
 
     public BigDecimal getIncome(){
+        BigDecimal companyIncome = BigDecimal.valueOf(0);
+        for (Employee employee : listOfEmployees){
+            if (employee instanceof IncomeReceivable)
+            {
+                companyIncome = companyIncome.add(((IncomeReceivable) employee).getIncome());
+            }
+        }
         return companyIncome;
     }
 
