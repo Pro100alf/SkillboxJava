@@ -32,5 +32,6 @@ public class Main {
 
         myFirstCompany.getTopSalaryStaff(10);
         myFirstCompany.getLowestSalaryStaff(30);
+        test())()
     }
 }
