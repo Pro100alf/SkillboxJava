@@ -1,5 +1,8 @@
 import com.skillbox.airport.*;
 
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -15,17 +18,15 @@ public class Main {
 
         Airport air = Airport.getInstance();
 
-        List<Terminal> allTerminals = air.getTerminals();
-
-        for (Terminal terminal : allTerminals) {
-            terminal.getFlights().stream()
-                    .filter(f -> f.getDate().after(now))
-                    .filter(f -> f.getDate().before(nowPlus2Hour))
-                    .forEach(f -> {
-                        System.out.println(f.getDate());
-                        System.out.println(f.getAircraft());
-                    });
-        }
-
+        air.getTerminals().stream()
+                .flatMap(t -> t.getFlights().stream())
+                .filter(f -> f.getDate().after(now))
+                .filter(f -> f.getDate().before(nowPlus2Hour))
+                .filter(f -> f.getType() == Flight.Type.DEPARTURE)
+                .sorted(Comparator.comparing(Flight::getDate))
+                .forEach(f -> {
+                    System.out.println(f.getDate());
+                    System.out.println(f.getAircraft());
+                });
     }
 }

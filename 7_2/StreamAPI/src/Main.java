@@ -2,6 +2,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.*;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -13,12 +14,12 @@ public class Main {
         ArrayList<Employee> staff = loadStaffFromFile();
 
         staff.stream()
-                .filter(e -> e.getWorkStart().getYear() + 1900 == 2017)
+                .filter(e -> convertToLocalDateTimeViaInstant(e.getWorkStart()).getYear() == 2017)
                 .max(Comparator.comparing(Employee::getSalary))
                 .ifPresent(System.out::println);
 
         staff.stream()
-                .filter(e -> e.getWorkStart().getYear() + 1900 == 2017)
+                .filter(e -> convertToLocalDateTimeViaInstant(e.getWorkStart()).getYear() == 2017)
                 .map(s -> s.getSalary())
                 .reduce((s1, s2) -> s1 + s2)
                 .ifPresent(System.out::println);
@@ -44,5 +45,18 @@ public class Main {
             ex.printStackTrace();
         }
         return staff;
+    }
+
+    public static LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+    }
+
+
+    public static Date convertToDateViaInstant(LocalDate dateToConvert) {
+        return java.util.Date.from(dateToConvert.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
     }
 }
