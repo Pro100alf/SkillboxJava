@@ -40,8 +40,8 @@ public class Main
                     System.out.println(commandError);
                 }
             }
-            catch (IllegalArgumentException ex){
-                System.out.println(ex.getMessage());
+            catch (RuntimeException ex){
+                System.out.println(ex);
             }
         }
     }

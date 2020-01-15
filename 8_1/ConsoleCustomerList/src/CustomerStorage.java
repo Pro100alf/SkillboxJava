@@ -1,5 +1,8 @@
+import ru.alf.exceptions.NotValidEmailException;
+import ru.alf.exceptions.NotValidNameException;
+import ru.alf.exceptions.NotValidPhoneException;
+
 import java.util.HashMap;
-import java.util.stream.Stream;
 
 public class CustomerStorage
 {
@@ -18,11 +21,11 @@ public class CustomerStorage
                     + "add Василий Петров vasily.petrov@gmail.com +79215637722");
         }
         if (!isValidMail(components[2])){
-            throw new IllegalArgumentException("Wrong email. Correct format: \n"
+            throw new NotValidEmailException("Wrong email. Correct format: \n"
                     + "add Василий Петров vasily.petrov@gmail.com +79215637722");
         }
         if (!isValidPhone(components[3])){
-            throw new IllegalArgumentException("Wrong phone. Correct format: \n"
+            throw new NotValidPhoneException("Wrong phone. Correct format: \n"
                     + "add Василий Петров vasily.petrov@gmail.com +79215637722");
         }
         String name = components[0] + " " + components[1];
@@ -37,10 +40,10 @@ public class CustomerStorage
     public void removeCustomer(String name)
     {
         if (name == null){
-            throw new IllegalArgumentException("Wrong format. Correct format:\nremove Василий Петров");
+            throw new NotValidNameException("Wrong format. Correct format:\nremove Василий Петров");
         }
         if (!storage.containsKey(name)){
-            throw new IllegalArgumentException("Wrong name. No customer in database");
+            throw new NotValidNameException("Wrong name. No customer in database");
         }
         storage.remove(name);
     }
