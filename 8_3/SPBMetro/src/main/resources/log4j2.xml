@@ -4,35 +4,38 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <File name="findStations" fileName="findStations.log" append="false">
+        <File name="findStations" fileName="findStations.log" append="true">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p - %msg%n</Pattern>
             </PatternLayout>
+            <Filters>
+                <MarkerFilter marker="INPUT_HISTORY"/>
+            </Filters>
         </File>
-        <File name="findStationsErrors" fileName="findStationsErrors.log" append="false">
+        <File name="findStationsErrors" fileName="findStationsErrors.log" append="true">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p - %msg%n</Pattern>
             </PatternLayout>
+            <Filters>
+                <MarkerFilter marker="INPUT_HISTORY_ERRORS"/>
+            </Filters>
         </File>
-        <File name="exceptions" fileName="exceptions.log" append="false">
+        <File name="exceptions" fileName="exceptions.log" append="true">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p - %msg%n</Pattern>
             </PatternLayout>
+            <Filters>
+                <MarkerFilter marker="EXCEPTIONS"/>
+            </Filters>
         </File>
     </Appenders>
     <Loggers>
         <!-- set this value to one of all, off, fatal, error, warn, info, debug or trace -->
         <Root level="all">
-            <AppenderRef ref="Console"/>
-        </Root>
-        <Logger name="SPBMetro.findStations" level="all" additivity="false">
             <AppenderRef ref="findStations"/>
-        </Logger>
-        <Logger name="SPBMetro.findStationsErrors" level="all" additivity="false">
             <AppenderRef ref="findStationsErrors"/>
-        </Logger>
-        <Logger name="SPBMetro.exceptions" level="all" additivity="false">
             <AppenderRef ref="exceptions"/>
-        </Logger>
+        </Root>
+
     </Loggers>
 </Configuration>

@@ -2,6 +2,8 @@ import core.Line;
 import core.Station;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,9 +17,11 @@ import java.util.Scanner;
 public class Main
 {
 
-    private static Logger loggerFindStations = LogManager.getLogger("SPBMetro.findStations");
-    private static Logger loggerFindStationsErrors = LogManager.getLogger("SPBMetro.findStationsErrors");
-    private static Logger loggerExceptions = LogManager.getLogger("exceptions");
+    private static Logger LOGGER = LogManager.getLogger(Main.class);
+
+    private static final Marker INPUT_HISTORY_MARKER = MarkerManager.getMarker("INPUT_HISTORY");
+    private static final Marker INPUT_HISTORY_ERRORS_MARKER = MarkerManager.getMarker("INPUT_HISTORY_ERRORS");
+    private static final Marker EXCEPTIONS_MARKER = MarkerManager.getMarker("EXCEPTIONS");
 
     private static String dataFile = "src/main/resources/map.json";
     private static Scanner scanner;
@@ -42,10 +46,10 @@ public class Main
 
                 System.out.println("Длительность: " +
                         RouteCalculator.calculateDuration(route) + " минут");
-                loggerFindStations.info("От: " + from + " до: " + to + " Длительность: " + RouteCalculator.calculateDuration(route) + " минут");
+                LOGGER.info(INPUT_HISTORY_MARKER,"От: " + from + " до: " + to + " Длительность: " + RouteCalculator.calculateDuration(route) + " минут");
             }
             catch (Exception ex){
-                loggerExceptions.error(ex.getMessage());
+                LOGGER.error(EXCEPTIONS_MARKER, ex.getMessage());
             }
         }
     }
@@ -87,7 +91,7 @@ public class Main
                 return station;
             }
             System.out.println("Станция не найдена :(");
-            loggerFindStationsErrors.error("Станция не найдена : " + line);
+            LOGGER.error(INPUT_HISTORY_ERRORS_MARKER, "Станция не найдена : " + line);
         }
     }
 
