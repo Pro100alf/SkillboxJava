@@ -7,8 +7,8 @@ import java.nio.channels.FileChannel;
 public class Main {
     public static void main(String[] args) {
         try{
-            String path = "/users/alf/IdeaProjects/bankAccount";
-            String newPath = "/users/alf/Downloads/New";
+            String path = "dir";
+            String newPath = "dir/rt";
             File folder = new File(path);
             File newFolder = new File(newPath);
             if (folder.isDirectory()) {
@@ -27,31 +27,32 @@ public class Main {
         File[] folderEnt = folder.listFiles();
         for (File entry: folderEnt){
             String tempNewPath = entry.getAbsolutePath().replace(oldPath, newPath);
-            File tempNewFile = new File(tempNewPath);
-            if (entry.isDirectory()){
-                if (!tempNewFile.exists()) {
-                    tempNewFile.mkdir();
+            if (!entry.getAbsolutePath().contains(newPath)) {
+                File tempNewFile = new File(tempNewPath);
+                if (entry.isDirectory()) {
+                    if (!tempNewFile.exists()) {
+                        tempNewFile.mkdir();
+                    }
+                    copyFiles(entry, oldPath, newPath);
+                    continue;
                 }
-                copyFiles(entry, oldPath, newPath);
-                continue;
+                if (!tempNewFile.exists()) {
+                    tempNewFile.createNewFile();
+                }
+                FileChannel source = null;
+                FileChannel destination = null;
+                source = new FileInputStream(entry).getChannel();
+                destination = new FileOutputStream(tempNewFile).getChannel();
+                if (destination != null && source != null) {
+                    destination.transferFrom(source, 0, source.size());
+                }
+                if (source != null) {
+                    source.close();
+                }
+                if (destination != null) {
+                    destination.close();
+                }
             }
-            if (!tempNewFile.exists()){
-                tempNewFile.createNewFile();
-            }
-            FileChannel source = null;
-            FileChannel destination = null;
-            source = new FileInputStream(entry).getChannel();
-            destination = new FileOutputStream(tempNewFile).getChannel();
-            if (destination != null && source != null) {
-                destination.transferFrom(source, 0, source.size());
-            }
-            if (source != null) {
-                source.close();
-            }
-            if (destination != null) {
-                destination.close();
-            }
-
         }
     }
 }
