@@ -1,15 +1,20 @@
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Main {
 
     private static String path = "data/movementList.csv";
+    private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yy");
 
     public static void main(String[] args) {
         BigDecimal fullIncome = BigDecimal.valueOf(0);
         BigDecimal fullExpenses = BigDecimal.valueOf(0);
+        String sss = "s,s,s";
+        System.out.println(sss.split(",", 8).length);
         List<String> expensesList = new ArrayList<>();
         try{
             List<String> allLines = Files.readAllLines(Paths.get(path));
@@ -22,6 +27,7 @@ public class Main {
                 if (tempExpenses.compareTo(BigDecimal.valueOf(0)) == 1){
                     expensesList.add(line);
                 }
+                System.out.println(LocalDate.parse(fragments[3], DTF));
             }
         }
         catch(Exception ex){
