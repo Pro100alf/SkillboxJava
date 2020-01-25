@@ -31,7 +31,6 @@ public class FileDownloader {
             }
             System.out.println(fileUrl + "\t:OK");
             logger.info(String.format("%s - %s", fileName, trueSizeFormat(fileSizeInBytes)));
-            logger.info(String.format("%s - %d", fileName, fileSizeInBytes));
         } catch (IOException ex) {
             ex.getStackTrace();
             System.out.println(ex + fileUrl);
